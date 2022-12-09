@@ -17,7 +17,7 @@ let members = loadMembers();
 
 function sinBtnHandler() {
   console.log("Sign In");
-
+  checkUser();
   saveMembers();
 }
 function logBtnHandler() {}
@@ -35,8 +35,7 @@ function checkUser() {
   for (let i = 0; i < members.length; i++) {
     if (members[i].name === nameC) {
       alert("Username is already taken");
-    } else {
-      addUser();
+      return false;
     }
   }
 }
@@ -44,11 +43,6 @@ function checkUser() {
 function checkPass() {
   let passC = sinPasEl.value;
   let cPass = conPasEl.value;
-  if (passC !== cPass) {
-    alert("Passwords do not match");
-  } else {
-    checkUser();
-  }
 }
 function newMember(memberName, memberPassword) {
   return { name: memberName, password: memberPassword, completed: "" };
