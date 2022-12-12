@@ -2,7 +2,7 @@
 
 // Elements
 let sinBtnEl = document.getElementById("sign-up-btn");
-let logBtnEl = document.getElementById("sign-ip-btn");
+let logBtnEl = document.getElementById("sign-in-btn");
 let sinNamEl = document.getElementById("sign-name");
 let sinPasEl = document.getElementById("sign-pass");
 let conPasEl = document.getElementById("sign-conpass");
@@ -11,7 +11,7 @@ let logPasEl = document.getElementById("log-pass");
 
 // Button Event Listeners
 sinBtnEl.addEventListener("click", sinBtnHandler);
-//logBtnEl.addEventListener("click", logBtnHandler);
+logBtnEl.addEventListener("click", logBtnHandler);
 
 let members = loadMembers();
 
@@ -20,14 +20,24 @@ function sinBtnHandler() {
   checkUser();
   saveMembers();
 }
-function logBtnHandler() {}
+function logBtnHandler() {
+  console.log("Log-In");
+  logIn();
+}
 
 // Main Functions
 function addUser() {
   let name = sinNamEl.value;
   let password = sinPasEl.value;
-  members.push(newMember(name, password));
-  alert(`Hello ${name}. Welcome to the club`);
+  let conPass = conPasEl.value;
+  if (password !== conPass) {
+    alert("Passwords do not match");
+  } else if (password.length < 8) {
+    alert("Password must be 8 characters or more");
+  } else {
+    members.push(newMember(name, password));
+    alert(`Hello ${name}. Welcome to the club`);
+  }
 }
 
 function checkUser() {
@@ -38,12 +48,21 @@ function checkUser() {
       return false;
     }
   }
+  addUser();
 }
 
-function checkPass() {
-  let passC = sinPasEl.value;
-  let cPass = conPasEl.value;
+function logIn() {
+  let name = logNamEl.value;
+  let pass = logPasEl.value;
+  for (let i = 0; i < members.length; i++) {
+    if (members[i].password === pass && members[i].name === name) {
+      alert("Log In Complete");
+      return false;
+    }
+  }
+  alert("Log In Failed");
 }
+
 function newMember(memberName, memberPassword) {
   return { name: memberName, password: memberPassword, completed: "" };
 }
